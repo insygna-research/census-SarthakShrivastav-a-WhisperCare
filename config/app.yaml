@@ -1,0 +1,141 @@
+app:
+  name: WhisperCare
+  version: 0.1.0
+  description: India-focused voice-first healthcare workflow platform.
+  api_prefix: /api
+  environment: development
+  api_base_url_env: WHISPERCARE_API_BASE_URL
+  default_api_base_url: http://localhost:8000/api
+
+cors:
+  allowed_origins:
+    - http://localhost:3000
+    - http://localhost:8000
+  allow_credentials: true
+  allowed_methods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+  allowed_headers:
+    - "*"
+
+database:
+  url_env: DATABASE_URL
+  default_url: sqlite+aiosqlite:///./whispercare.db
+  echo: false
+  pool_size: 5
+  max_overflow: 10
+
+livekit:
+  url_env: LIVEKIT_URL
+  api_key_env: LIVEKIT_API_KEY
+  api_secret_env: LIVEKIT_API_SECRET
+  agent_name: india-healthcare-voice-v1
+  room_prefix: whispercare
+  empty_timeout_seconds: 300
+  max_participants: 3
+  session_timeout_seconds: 900
+
+ai_models:
+  llm:
+    provider: openai
+    model: gpt-4o-mini
+    api_key_env: OPENAI_API_KEY
+  stt:
+    provider: elevenlabs
+    model: scribe_v2
+    api_key_env: ELEVENLABS_API_KEY
+  tts:
+    provider: elevenlabs
+    model: eleven_turbo_v2_5
+    voice_id: default
+    api_key_env: ELEVENLABS_API_KEY
+
+languages:
+  default: en-IN
+  supported:
+    - en-IN
+    - hi-IN
+    - hinglish
+
+india:
+  default_country: IN
+  default_state: Karnataka
+  emergency:
+    national: "112"
+    ambulance_primary: "108"
+    ambulance_secondary: "102"
+  mental_health:
+    tele_manas:
+      - "14416"
+      - "1-800-891-4416"
+    kiran: "1800-599-0019"
+
+safety:
+  crisis_keywords:
+    - suicide
+    - kill myself
+    - self harm
+    - end my life
+    - cannot live
+    - harm someone
+  urgent_symptom_keywords:
+    - chest pain
+    - severe breathlessness
+    - stroke
+    - unconscious
+    - seizure
+    - severe bleeding
+  crisis_response: "I am concerned about your immediate safety. Please contact 112 now, or call Tele-MANAS at 14416 / 1-800-891-4416. If someone nearby can help, please tell them right now."
+  urgent_response: "Your symptoms may need urgent medical attention. Please contact 112 or visit the nearest emergency department."
+
+screening:
+  phq9:
+    answer_scores:
+      not_at_all: 0
+      several_days: 1
+      more_than_half: 2
+      nearly_every_day: 3
+    severity:
+      minimal: [0, 4]
+      mild: [5, 9]
+      moderate: [10, 14]
+      moderately_severe: [15, 19]
+      severe: [20, 27]
+    questions:
+      - Little interest or pleasure in doing things
+      - Feeling down, depressed, or hopeless
+      - Trouble falling or staying asleep, or sleeping too much
+      - Feeling tired or having little energy
+      - Poor appetite or overeating
+      - Feeling bad about yourself
+      - Trouble concentrating
+      - Moving or speaking slowly, or being fidgety/restless
+      - Thoughts that you would be better off dead or hurting yourself
+  gad7:
+    answer_scores:
+      not_at_all: 0
+      several_days: 1
+      more_than_half: 2
+      nearly_every_day: 3
+    severity:
+      minimal: [0, 4]
+      mild: [5, 9]
+      moderate: [10, 14]
+      severe: [15, 21]
+    questions:
+      - Feeling nervous, anxious, or on edge
+      - Not being able to stop or control worrying
+      - Worrying too much about different things
+      - Trouble relaxing
+      - Being so restless that it is hard to sit still
+      - Becoming easily annoyed or irritable
+      - Feeling afraid as if something awful might happen
+
+docker:
+  image_repository: sarthakshrivastava/whispercare
+  dev_tag_prefix: dev
+
