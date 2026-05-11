@@ -136,6 +136,6 @@ screening:
       - Feeling afraid as if something awful might happen
 
 docker:
-  image_repository: sarthakshrivastava/whispercare
+  image_repository: sarthak73/whispercare
   dev_tag_prefix: dev
 
