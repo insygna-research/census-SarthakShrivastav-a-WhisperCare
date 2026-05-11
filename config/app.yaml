@@ -4,6 +4,8 @@ app:
   description: India-focused voice-first healthcare workflow platform.
   api_prefix: /api
   environment: development
+  api_base_url_env: WHISPERCARE_API_BASE_URL
+  default_api_base_url: http://localhost:8000/api
 
 cors:
   allowed_origins:
