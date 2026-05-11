@@ -15,6 +15,12 @@ class AppSettings(BaseModel):
     description: str
     api_prefix: str
     environment: str
+    api_base_url_env: str
+    default_api_base_url: str
+
+    @property
+    def api_base_url(self) -> str:
+        return os.getenv(self.api_base_url_env, self.default_api_base_url)
 
 
 class CorsSettings(BaseModel):
