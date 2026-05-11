@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 
 import httpx
 
@@ -21,17 +22,19 @@ async def send_turn_to_backend(intake_session_id: str, input_text: str, api_base
 
 def main() -> None:
     settings = get_settings()
-    print(
-        json.dumps(
-            {
-                "agent_name": settings.livekit.agent_name,
-                "llm_model": settings.ai_models.llm.model,
-                "stt_model": settings.ai_models.stt.model,
-                "tts_model": settings.ai_models.tts.model,
-                "api_base_url": os.getenv("WHISPERCARE_API_BASE_URL", "http://localhost:8000/api"),
-            }
-        )
-    )
+    runtime = {
+        "agent_name": settings.livekit.agent_name,
+        "llm_model": settings.ai_models.llm.model,
+        "stt_model": settings.ai_models.stt.model,
+        "tts_model": settings.ai_models.tts.model,
+        "api_base_url": settings.app.api_base_url,
+        "mode": os.getenv("WHISPERCARE_WORKER_MODE", "stub"),
+    }
+    print(json.dumps(runtime), flush=True)
+
+    if runtime["mode"] == "stub":
+        while True:
+            time.sleep(settings.livekit.session_timeout_seconds)
 
 
 if __name__ == "__main__":
